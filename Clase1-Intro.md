@@ -383,7 +383,7 @@ const validaciones = {
 
 Otra versión que usa clases.
 
-Modelamos la idea de un "validador" como un objeto que sabe checkear una condición y retornar un mensaje en caso de error, o undefined (ok, se podría haber hecho de otra forma menos hackerosa)
+Modelamos la idea de un "validador" como un objeto que sabe checkear una condición y retorna una lista de errores o bien una lista vacía (ok, se podría haber hecho de otra forma menos hackerosa)
 
 ```js
 class Validador {
@@ -392,7 +392,7 @@ class Validador {
     this.condicion = condicion
   }
   validar(usuario) {
-    return this.condicion(usuario) ? this.mensaje : []
+    return this.condicion(usuario) ? [this.mensaje] : []
   }
 }
 ```
@@ -409,7 +409,7 @@ const validadores = [
 Ojo que es un array de objetos en este caso ya que el objeto tiene ambas cosas: mensaje y lógica
 
 Luego el motor se puede implementar de varias formas. Les queda como ejercicio implementarlo :)
-Un tip es usar `reduce`.
+Un tip es usar `reduce` y/o flat/tten
 
 Luego esto también se puede iterar para no repetir tanto código entre regla y regla.
 Acá varias opciones desde la más básica a la que menos código requiere y resulta más "expresiva/declarativa" (dice mucho menos el COMO y más el QUE)
