@@ -286,6 +286,8 @@ const validaciones = {
 Y de paso metimos otra regla más "siempre" que nunca falla. Y cambiamos la sintaxis de las funciones para escribirlas más cortas usando "arrow functions".
 
 
+### Refactorizando aún más (extra no visto en clase)
+
 Es posible seguir achicando este código, con algo que no vimos en clase. El 'operador spread'.
 Entendamos ese operador primero.
 
@@ -376,6 +378,61 @@ const validaciones = {
   'Nunca da error': siempre()
 }
 ```
+
+### Y se podría haber hecho con objetos ?
+
+Otra versión que usa clases.
+
+Modelamos la idea de un "validador" como un objeto que sabe checkear una condición y retornar un mensaje en caso de error, o undefined (ok, se podría haber hecho de otra forma menos hackerosa)
+
+```js
+class Validador {
+  constructor(mensaje, condicion) {
+    this.mensaje = mensaje
+    this.condicion = condicion
+  }
+  validar(usuario) {
+    return this.condicion(usuario) ? this.mensaje : []
+  }
+}
+```
+
+Luego las validaciones serían
+
+```js
+const validadores = [
+  new Validador('Nombre es requerido', usuario => !usuario.nombre),
+  new Validador('Apellido es requerido', usuario => !usuario.apellido),
+  // etc
+]
+```
+Ojo que es un array de objetos en este caso ya que el objeto tiene ambas cosas: mensaje y lógica
+
+Luego el motor se puede implementar de varias formas. Les queda como ejercicio implementarlo :)
+Un tip es usar `reduce`.
+
+Luego esto también se puede iterar para no repetir tanto código entre regla y regla.
+Acá varias opciones desde la más básica a la que menos código requiere y resulta más "expresiva/declarativa" (dice mucho menos el COMO y más el QUE)
+
+```js
+
+const validadores = [
+  // forma basica
+  new Validador('Nombre es requerido', usuario => !usuario.nombre),
+
+  // soporta otras validaciones distintas
+  new Validador('Password mas de 4 caracteres', ({ password }) => password.length > 4)
+
+  // reutilizando el checkeo
+  new Validador('Apellido es requerido', campoRequerido('apellido')),
+
+  // reutilizando el validador completo (mensaje y checkeo)
+  new CampoRequeridoValidador('titulo'),
+
+  // shortcut para el anterior
+  requiere('apellido'),
+]
+``` 
 
 
 # Sistemas de Tipos
