@@ -23,7 +23,7 @@ class Brocoli
 end
 ```
 
-## Sincleton class
+## Singleton class
 
 Internamente, cada instancia tiene asociada una Singleton Class.
 En esta clase es donde quedan registrados los métodos propios de dicha instancia.
